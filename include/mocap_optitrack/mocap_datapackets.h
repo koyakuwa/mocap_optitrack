@@ -80,9 +80,7 @@ class RigidBody
     ~RigidBody();
 
     int ID;
-    
-    Pose pose; 
-
+    Pose pose;
     int NumberOfMarkers;
     Marker *marker;
 

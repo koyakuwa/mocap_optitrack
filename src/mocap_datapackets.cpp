@@ -6,7 +6,7 @@
 #include <ros/console.h>
 using namespace std;
 
-RigidBody::RigidBody() 
+RigidBody::RigidBody()
   : NumberOfMarkers(0), marker(0)
 {
 }
@@ -84,7 +84,6 @@ void MoCapDataFormat::parse()
 
   // parse frame number
   read_and_seek(frameNumber);
-
   // count number of packetsets
   read_and_seek(model.numMarkerSets);
   model.markerSets = new MarkerSet[model.numMarkerSets];
@@ -108,7 +107,6 @@ void MoCapDataFormat::parse()
       read_and_seek(model.markerSets[i].markers[k]);
     }
   }
-
   // read number of 'other' markers (cf. NatNet specs)
   read_and_seek(model.numOtherMarkers);
   model.otherMarkers = new Marker[model.numOtherMarkers];
@@ -128,30 +126,30 @@ void MoCapDataFormat::parse()
   {
     // read id, position and orientation of each rigid body
     read_and_seek(model.rigidBodies[m].ID);
-    read_and_seek(model.rigidBodies[m].pose);
+    // read_and_seek(model.rigidBodies[m].pose);
 
     // get number of markers per rigid body
     read_and_seek(model.rigidBodies[m].NumberOfMarkers);
     ROS_DEBUG("Rigid body ID: %d\n", model.rigidBodies[m].ID);
     ROS_DEBUG("Number of rigid body markers: %d\n", model.rigidBodies[m].NumberOfMarkers);
-    if (model.rigidBodies[m].NumberOfMarkers > 0)
-    {
-      model.rigidBodies[m].marker = new Marker [model.rigidBodies[m].NumberOfMarkers];
-      size_t byte_count = model.rigidBodies[m].NumberOfMarkers * sizeof(Marker);
-      memcpy(model.rigidBodies[m].marker, packet, byte_count);
-      seek(byte_count);
+    ROS_DEBUG("%d\n",m);
+    // if (model.rigidBodies[m].NumberOfMarkers > 0)
+    // {
+    //   model.rigidBodies[m].marker = new Marker[model.rigidBodies[m].NumberOfMarkers];
+    //   size_t byte_count = model.rigidBodies[m].NumberOfMarkers * sizeof(Marker);
+    //   memcpy(model.rigidBodies[m].marker, packet, byte_count);
+    //   seek(byte_count);
+    //   // skip marker IDs
+    //   byte_count = model.rigidBodies[m].NumberOfMarkers * sizeof(int);
+    //   seek(byte_count);
 
-      // skip marker IDs
-      byte_count = model.rigidBodies[m].NumberOfMarkers * sizeof(int);
-      seek(byte_count);
-
-      // skip marker sizes
-      byte_count = model.rigidBodies[m].NumberOfMarkers * sizeof(float);
-      seek(byte_count);
-    }
-
+    //   // skip marker sizes
+    //   byte_count = model.rigidBodies[m].NumberOfMarkers * sizeof(float);
+    //   seek(byte_count);
+    // }
     // skip mean marker error
-    seek(sizeof(float));
+    // seek(sizeof(float));
+    // seek(2);
   }
 
   // TODO: read skeletons

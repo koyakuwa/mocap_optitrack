@@ -49,7 +49,6 @@ void processMocapData( const char** mocap_model,
   {
     bool packetread = false;
     int numBytes = 0;
-
     do
     {
       // Receive data from mocap device
@@ -60,7 +59,6 @@ void processMocapData( const char** mocap_model,
       {
         const char* buffer = multicast_client_socket.getBuffer();
         unsigned short header = *((unsigned short*)(&buffer[0]));
-
         // Look for the beginning of a NatNet package
         if (header == 7)
         {
@@ -69,7 +67,6 @@ void processMocapData( const char** mocap_model,
           format.parse();
           packetread = true;
           numberOfPackets++;
-
           if( format.model.numRigidBodies > 0 )
           {
             for( int i = 0; i < format.model.numRigidBodies; i++ )
@@ -101,13 +98,12 @@ void processMocapData( const char** mocap_model,
 ////////////////////////////////////////////////////////////////////////
 
 int main( int argc, char* argv[] )
-{ 
-  
+{
   // Initialize ROS node
   ros::init(argc, argv, "mocap_node");
   ros::NodeHandle n("~");
 
-  // Get configuration from ROS parameter server  
+  // Get configuration from ROS parameter server
   const char** mocap_model( DEFAULT_MOCAP_MODEL );
   if( n.hasParam( MOCAP_MODEL_KEY ) )
   {    std::string tmp;
