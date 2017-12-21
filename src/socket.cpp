@@ -119,7 +119,6 @@ UdpMulticastSocket::UdpMulticastSocket( const int local_port, const std::string 
     error << "Failed to enable non-blocking I/O: " << strerror( errno );
     throw SocketException( error.str().c_str() );
   }
-  ROS_INFO("hello");
 }
 
 UdpMulticastSocket::~UdpMulticastSocket()
